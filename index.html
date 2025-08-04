@@ -4,73 +4,47 @@
   <meta charset="UTF-8" />
   <title>Visualizador TISUR</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-<style>
-  body {
-    font-family: 'Arial', sans-serif;
-    margin: 0;
-    padding: 20px;
-    color: #fff;
-    background-image: url('../imagen01.webp');
-    background-size: cover;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-attachment: fixed;
-    position: relative;
-    z-index: 0;
-  }
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background-color: rgba(0, 0, 0, 0.5);
-    z-index: -1;
-  }
-
-
-    select, button { margin: 5px 10px 15px 0; padding: 5px; }
-    table { border-collapse: collapse; width: 100%; margin-top: 20px;}
-    th, td { border: 1px solid #aaa; padding: 8px; text-align: center; }
-    th { background-color: #333; color: white; }
-    #graficos { margin-top: 30px; }
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
-  <h1>Visualizador de Predicciones - TISUR</h1>
+  <header>
+    <h1>Visualizador de Predicciones - TISUR</h1>
+  </header>
 
-  <label>Versión:
-    <select id="version">
-      <option>Prediccion para Tubos - Paquetes</option>
-      <option>Prediccion para Cemento Asfaltico</option>
-      <option>Prediccion para Bobinas</option>
-      <option>Prediccion para Rollos</option>
-    </select>
-  </label>
+  <main>
+    <div class="selector">
+      <label for="version">Versión:</label>
+      <select id="version">
+        <option>Prediccion para Tubos - Paquetes</option>
+        <option>Prediccion para Cemento Asfaltico</option>
+        <option>Prediccion para Bobinas</option>
+        <option>Prediccion para Rollos</option>
+      </select>
 
-  <label>Producto:
-    <select id="producto">
-      <option>Cemento</option>
-      <option>Bobinas</option>
-      <option>Rollos</option>
-      <option>Tubos</option>
-    </select>
-  </label>
+      <label for="producto">Producto:</label>
+      <select id="producto">
+        <option>Cemento</option>
+        <option>Bobinas</option>
+        <option>Rollos</option>
+        <option>Tubos</option>
+      </select>
 
-  <label>Área:
-    <select id="area">
-      <option value="">-- Seleccionar área --</option>
-      <option>Area 1</option>
-      <option>Area 2</option>
-      <option>Area 3</option>
-    </select>
-  </label>
+      <label for="area">Área:</label>
+      <select id="area">
+        <option value="">-- Seleccionar área --</option>
+        <option>Area 1</option>
+        <option>Area 2</option>
+        <option>Area 3</option>
+      </select>
 
-  <button id="btn-cargar">Cargar datos</button>
+      <button id="btn-cargar">Cargar datos</button>
+    </div>
 
-  <div id="tabla-datos"></div>
-
-  <div id="graficos">
-    <canvas id="grafico"></canvas>
-  </div>
+    <div id="tabla-datos" class="tabla"></div>
+    <div id="graficos" class="graficos">
+      <canvas id="grafico"></canvas>
+    </div>
+  </main>
 
   <script>
     const btnCargar = document.getElementById('btn-cargar');
@@ -106,7 +80,6 @@
         return;
       }
 
-      // Crear tabla HTML con las llaves del primer objeto como encabezados
       const keys = Object.keys(data[0]);
       let html = '<table><thead><tr>';
       keys.forEach(k => html += `<th>${k}</th>`);
@@ -123,7 +96,6 @@
     function mostrarGrafico(data) {
       if(chartInstance) chartInstance.destroy();
 
-      // Ejemplo: barras con 'Base bloque' y 'Ancho bloque' (filas)
       const labels = data.map((_, i) => `Fila ${i+1}`);
       const baseBloque = data.map(d => d['Base bloque'] || 0);
       const anchoBloque = data.map(d => d['Ancho bloque'] || 0);
@@ -156,4 +128,5 @@
   </script>
 </body>
 </html>
+
 

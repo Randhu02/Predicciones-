@@ -13,6 +13,21 @@ def cargar_datos(version):
         df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/07_Prediccion_Bobinas.xlsx')
         df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/07_Prediccion_Rollos.xlsx')
         df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/07_Prediccion_Tubos_Paquetes.xlsx')
+    elif version == "Prediccion para Cemento Asfaltico":
+        df_cemento = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Cemento_Asfaltico.xlsx')
+        df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Bobinas.xlsx')
+        df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Rollos.xlsx')
+        df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Tubos_Paquetes.xlsx')       
+    elif version == "Prediccion para Bobinas":
+        df_cemento = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Cemento_Asfaltico.xlsx')
+        df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Bobinas.xlsx')
+        df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Rollos.xlsx')
+        df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Tubos_Paquetes.xlsx')          
+    elif version == "Prediccion para Rollos":
+        df_cemento = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Cemento_Asfaltico.xlsx')
+        df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Bobinas.xlsx')
+        df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Rollos.xlsx')
+        df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Tubos_Paquetes.xlsx')             
     # Agrega aquí los otros casos...
     else:
         return None, None, None, None

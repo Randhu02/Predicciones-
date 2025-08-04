@@ -1,44 +1,139 @@
+/* Fondo con imagen y capa oscura */
 body {
   font-family: Arial, sans-serif;
   margin: 0;
   padding: 0;
-  background: #f9f9f9;
+  color: white;
+  background-image: url('imagen01.webp');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-attachment: fixed;
+  position: relative;
+  min-height: 100vh;
+  box-sizing: border-box;
 }
 
+/* Capa oscura para mejorar legibilidad */
+body::before {
+  content: "";
+  position: fixed;
+  top: 0; left: 0; right: 0; bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  z-index: -1;
+}
+
+/* Centrar y dar estilo al header */
 header {
-  background: #02475e;
-  color: white;
-  padding: 1rem;
+  background: transparent;
+  padding: 1.5rem 1rem;
   text-align: center;
 }
 
+header h1 {
+  font-weight: 700;
+  font-size: 2.8rem;
+  margin: 0;
+  max-width: 90vw;
+  text-shadow: 0 0 8px rgba(0,0,0,0.7);
+}
+
+/* Main container con padding y centrado */
 main {
-  padding: 2rem;
+  max-width: 960px;
+  margin: 0 auto 50px;
+  padding: 20px;
+  box-sizing: border-box;
 }
 
+/* Selector contenedor */
 .selector {
-  background: #ffffff;
-  padding: 1rem;
+  background: rgba(255, 255, 255, 0.85);
+  padding: 20px;
   margin-bottom: 2rem;
-  border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  border-radius: 10px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.3);
+  color: #222;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  align-items: center;
+  justify-content: center;
 }
 
+/* Labels */
 .selector label {
-  display: block;
-  margin: 0.5rem 0 0.2rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
+  min-width: 90px;
+  font-size: 1.1rem;
+  color: #222;
 }
 
-.selector select {
-  width: 100%;
-  padding: 0.5rem;
-  margin-bottom: 1rem;
-}
-
-.tabla, .graficos {
-  background: #ffffff;
-  padding: 1rem;
-  margin-bottom: 2rem;
+/* Select y button */
+.selector select,
+.selector button {
+  min-width: 180px;
+  padding: 10px 15px;
+  font-size: 1rem;
   border-radius: 8px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+  border: 1px solid #ccc;
+  cursor: pointer;
+  transition: background-color 0.25s ease;
 }
+
+.selector select:focus,
+.selector button:focus {
+  outline: none;
+  border-color: #007bff;
+  box-shadow: 0 0 5px #007bff;
+}
+
+.selector button {
+  background-color: #007bff;
+  color: white;
+  font-weight: 700;
+  border: none;
+}
+
+.selector button:hover {
+  background-color: #0056b3;
+}
+
+/* Tabla de datos */
+.tabla {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  overflow-x: auto;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  color: #222;
+}
+
+.tabla table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tabla th,
+.tabla td {
+  border: 1px solid #999;
+  padding: 8px;
+  text-align: center;
+}
+
+.tabla th {
+  background-color: #007bff;
+  color: white;
+  font-weight: 700;
+}
+
+/* Contenedor gráfico */
+.graficos {
+  background: rgba(255, 255, 255, 0.9);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+  max-width: 100%;
+}
+
