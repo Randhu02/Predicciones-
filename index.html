@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <title>Visualizador TISUR</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  body {
+    font-family: 'Arial', sans-serif;
+    margin: 0;
+    padding: 20px;
+    color: #fff;
+    background-image: url('../imagen01.webp');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+    position: relative;
+    z-index: 0;
+  }
+  body::before {
+    content: "";
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: -1;
+  }
+
+
+    select, button { margin: 5px 10px 15px 0; padding: 5px; }
+    table { border-collapse: collapse; width: 100%; margin-top: 20px;}
+    th, td { border: 1px solid #aaa; padding: 8px; text-align: center; }
+    th { background-color: #333; color: white; }
+    #graficos { margin-top: 30px; }
+  </style>
+</head>
+<body>
+  <h1>Visualizador de Predicciones - TISUR</h1>
+
+  <label>Versión:
+    <select id="version">
+      <option>Prediccion para Tubos - Paquetes</option>
+      <option>Prediccion para Cemento Asfaltico</option>
+      <option>Prediccion para Bobinas</option>
+      <option>Prediccion para Rollos</option>
+    </select>
+  </label>
+
+  <label>Producto:
+    <select id="producto">
+      <option>Cemento</option>
+      <option>Bobinas</option>
+      <option>Rollos</option>
+      <option>Tubos</option>
+    </select>
+  </label>
+
+  <label>Área:
+    <select id="area">
+      <option value="">-- Seleccionar área --</option>
+      <option>Area 1</option>
+      <option>Area 2</option>
+      <option>Area 3</option>
+    </select>
+  </label>
+
+  <button id="btn-cargar">Cargar datos</button>
+
+  <div id="tabla-datos"></div>
+
+  <div id="graficos">
+    <canvas id="grafico"></canvas>
+  </div>
+
+  <script>
+    const btnCargar = document.getElementById('btn-cargar');
+    const tablaDiv = document.getElementById('tabla-datos');
+    const ctx = document.getElementById('grafico').getContext('2d');
+    let chartInstance;
+
+    btnCargar.addEventListener('click', async () => {
+      const version = document.getElementById('version').value;
+      const producto = document.getElementById('producto').value;
+      const area = document.getElementById('area').value;
+
+      const params = new URLSearchParams({ version, producto });
+      if(area) params.append('area', area);
+
+      try {
+        const res = await fetch('http://127.0.0.1:5000/api/datos?' + params.toString());
+        const data = await res.json();
+        if(res.status !== 200) {
+          tablaDiv.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
+          return;
+        }
+        mostrarTabla(data);
+        mostrarGrafico(data);
+      } catch (error) {
+        tablaDiv.innerHTML = `<p style="color:red;">Error al obtener datos</p>`;
+      }
+    });
+
+    function mostrarTabla(data) {
+      if(data.length === 0) {
+        tablaDiv.innerHTML = "<p>No hay datos para mostrar.</p>";
+        return;
+      }
+
+      // Crear tabla HTML con las llaves del primer objeto como encabezados
+      const keys = Object.keys(data[0]);
+      let html = '<table><thead><tr>';
+      keys.forEach(k => html += `<th>${k}</th>`);
+      html += '</tr></thead><tbody>';
+      data.forEach(row => {
+        html += '<tr>';
+        keys.forEach(k => html += `<td>${row[k]}</td>`);
+        html += '</tr>';
+      });
+      html += '</tbody></table>';
+      tablaDiv.innerHTML = html;
+    }
+
+    function mostrarGrafico(data) {
+      if(chartInstance) chartInstance.destroy();
+
+      // Ejemplo: barras con 'Base bloque' y 'Ancho bloque' (filas)
+      const labels = data.map((_, i) => `Fila ${i+1}`);
+      const baseBloque = data.map(d => d['Base bloque'] || 0);
+      const anchoBloque = data.map(d => d['Ancho bloque'] || 0);
+
+      chartInstance = new Chart(ctx, {
+        type: 'bar',
+        data: {
+          labels,
+          datasets: [
+            {
+              label: 'Base bloque (m)',
+              data: baseBloque,
+              backgroundColor: 'rgba(54, 162, 235, 0.7)',
+            },
+            {
+              label: 'Ancho bloque (m)',
+              data: anchoBloque,
+              backgroundColor: 'rgba(255, 159, 64, 0.7)',
+            }
+          ]
+        },
+        options: {
+          responsive: true,
+          scales: {
+            y: { beginAtZero: true }
+          }
+        }
+      });
+    }
+  </script>
+</body>
+</html>
+
