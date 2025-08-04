@@ -32,9 +32,9 @@
       <label for="area">Área:</label>
       <select id="area">
         <option value="">-- Seleccionar área --</option>
-        <option>Area 1</option>
-        <option>Area 2</option>
-        <option>Area 3</option>
+        <option>Área 1 (40x15)</option>
+        <option>Área 2 (15x15)</option>
+        <option>Área 3 (20x15)</option>
       </select>
 
       <button id="btn-cargar">Cargar datos</button>
@@ -61,7 +61,10 @@
       if(area) params.append('area', area);
 
       try {
-        const res = await fetch('http://127.0.0.1:5000/api/datos?' + params.toString());
+        const baseURL = window.location.hostname === 'localhost' || window.location.hostname === '127.0.0.1' ? 
+          'http://127.0.0.1:5000' : 'https://predicciones-tisur.onrender.com';
+
+        const res = await fetch(`${baseURL}/api/datos?${params.toString()}`);
         const data = await res.json();
         if(res.status !== 200) {
           tablaDiv.innerHTML = `<p style="color:red;">Error: ${data.error}</p>`;
