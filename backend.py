@@ -7,29 +7,32 @@ import os
 app = Flask(__name__)
 CORS(app)  # Permite todas las solicitudes cross-origin, útil para desarrollo
 
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+
 # Carga datos global (puedes optimizar con cache)
 def cargar_datos(version):
+    ruta_data = os.path.join(BASE_DIR, "data")
+    
     if version == "Prediccion para Tubos - Paquetes":
-        df_cemento = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/07_Prediccion_Cemento_Asfaltico.xlsx')
-        df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/07_Prediccion_Bobinas.xlsx')
-        df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/07_Prediccion_Rollos.xlsx')
-        df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/07_Prediccion_Tubos_Paquetes.xlsx')
+        df_cemento = pd.read_excel(os.path.join(ruta_data, '07_Prediccion_Cemento_Asfaltico.xlsx'))
+        df_bobinas = pd.read_excel(os.path.join(ruta_data, '07_Prediccion_Bobinas.xlsx'))
+        df_rollos = pd.read_excel(os.path.join(ruta_data, '07_Prediccion_Rollos.xlsx'))
+        df_tubos = pd.read_excel(os.path.join(ruta_data, '07_Prediccion_Tubos_Paquetes.xlsx'))
     elif version == "Prediccion para Cemento Asfaltico":
-        df_cemento = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Cemento_Asfaltico.xlsx')
-        df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Bobinas.xlsx')
-        df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Rollos.xlsx')
-        df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/06_Prediccion_Tubos_Paquetes.xlsx')       
+        df_cemento = pd.read_excel(os.path.join(ruta_data, '06_Prediccion_Cemento_Asfaltico.xlsx'))
+        df_bobinas = pd.read_excel(os.path.join(ruta_data, '06_Prediccion_Bobinas.xlsx'))
+        df_rollos = pd.read_excel(os.path.join(ruta_data, '06_Prediccion_Rollos.xlsx'))
+        df_tubos = pd.read_excel(os.path.join(ruta_data, '06_Prediccion_Tubos_Paquetes.xlsx'))       
     elif version == "Prediccion para Bobinas":
-        df_cemento = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Cemento_Asfaltico.xlsx')
-        df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Bobinas.xlsx')
-        df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Rollos.xlsx')
-        df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/03_Prediccion_Tubos_Paquetes.xlsx')          
+        df_cemento = pd.read_excel(os.path.join(ruta_data, '03_Prediccion_Cemento_Asfaltico.xlsx'))
+        df_bobinas = pd.read_excel(os.path.join(ruta_data, '03_Prediccion_Bobinas.xlsx'))
+        df_rollos = pd.read_excel(os.path.join(ruta_data, '03_Prediccion_Rollos.xlsx'))
+        df_tubos = pd.read_excel(os.path.join(ruta_data, '03_Prediccion_Tubos_Paquetes.xlsx'))          
     elif version == "Prediccion para Rollos":
-        df_cemento = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Cemento_Asfaltico.xlsx')
-        df_bobinas = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Bobinas.xlsx')
-        df_rollos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Rollos.xlsx')
-        df_tubos = pd.read_excel('C:/Users/Usuario/Desktop/PROYECTO TISUR/04_Prediccion_Tubos_Paquetes.xlsx')             
-    # Agrega aquí los otros casos...
+        df_cemento = pd.read_excel(os.path.join(ruta_data, '04_Prediccion_Cemento_Asfaltico.xlsx'))
+        df_bobinas = pd.read_excel(os.path.join(ruta_data, '04_Prediccion_Bobinas.xlsx'))
+        df_rollos = pd.read_excel(os.path.join(ruta_data, '04_Prediccion_Rollos.xlsx'))
+        df_tubos = pd.read_excel(os.path.join(ruta_data, '04_Prediccion_Tubos_Paquetes.xlsx'))             
     else:
         return None, None, None, None
     return df_cemento, df_bobinas, df_rollos, df_tubos
@@ -65,5 +68,6 @@ def obtener_datos():
     return jsonify(data)
 
 if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Render asigna el puerto en esta variable
+    port = int(os.environ.get("PORT", 5000))  # Render te pasa el puerto aquí
     app.run(host="0.0.0.0", port=port, debug=True)
+
