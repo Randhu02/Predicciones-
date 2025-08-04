@@ -2,6 +2,7 @@
 from flask import Flask, jsonify, request
 import pandas as pd
 from flask_cors import CORS
+import os
 
 app = Flask(__name__)
 CORS(app)  # Permite todas las solicitudes cross-origin, útil para desarrollo
@@ -64,4 +65,5 @@ def obtener_datos():
     return jsonify(data)
 
 if __name__ == "__main__":
-    app.run(debug=True)
+    port = int(os.environ.get("PORT", 5000))  # Render asigna el puerto en esta variable
+    app.run(host="0.0.0.0", port=port, debug=True)
